@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey to the Clouds | Ghibli Inspired Portfolio</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        :root {
+            --moss: #4F7942;
+            --sky: #88BBA6;
+            /* Teal from Haku's mane */
+            --parchment: #F5F5DC;
+            --sunset: #D66058;
+            /* Festive red from Jiji's bow and No-Face markings */
+            --midnight: #2C3E50;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--parchment);
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            color: var(--midnight);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            cursor: none;
+            /* Hide default for custom cursor */
+        }
+
+        a,
+        button,
+        input,
+        textarea {
+            cursor: none;
+        }
+
+        ::selection {
+            background-color: var(--sunset);
+            color: var(--parchment);
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'EB Garamond', serif;
+            color: var(--midnight);
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 15px rgba(255, 255, 255, 0.8), 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        p.hero-subtitle {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #1a252f;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 2;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--moss);
+        }
+
+        p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, var(--midnight) 0%, #0d141b 100%);
+            z-index: 999999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lantern-wrapper {
+            position: relative;
+            animation: floatLantern 3.5s ease-in-out infinite alternate;
+        }
+
+        .lantern-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 127, 80, 0.4);
+            /* Sunset orange */
+            filter: blur(40px);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatLantern {
+            0% {
+                transform: translateY(15px);
+            }
+
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Custom Image Cursor */
+        #soot-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            background-image: url('assets/cursor.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            pointer-events: none;
+            z-index: 1000000;
+            transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                filter 0.3s;
+            transform: translate(-50%, -50%);
+            /* Centering */
+        }
+
+        /* Interactive Hover state for Custom Cursor */
+        .cursor-hover {
+            width: 60px !important;
+            height: 60px !important;
+            filter: drop-shadow(0 0 8px var(--sunset));
+        }
+
+        /* Hero / Header Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .parallax-layer {
+            position: absolute;
+            top: -15%;
+            left: 0;
+            width: 100%;
+            height: 130%;
+            /* Parallax overflow */
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            z-index: 1;
+        }
+
+        .sky-layer {
+            background: linear-gradient(180deg, var(--sky) 0%, #E0F2FE 50%, var(--parchment) 100%);
+            z-index: 1;
+        }
+
+        .clouds-layer-back {
+            background-image: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.7) 0%, transparent 35%),
+                radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.5) 0%, transparent 30%);
+            z-index: 2;
+            opacity: 0.8;
+        }
+
+        .dragon-layer {
+            z-index: 3;
+            pointer-events: none;
+            /* Let clicks pass through */
+        }
+
+        .dragon-moving {
+            position: absolute;
+            top: 25%;
+            right: -80vw;
+            width: 700px;
+            max-width: 90vw;
+            animation: flight 25s linear infinite;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.25));
+            /* Rotate to correct the natural upward tilt in the image */
+            transform-origin: center center;
+        }
+
+        .clouds-layer-front {
+            background-image: radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.8) 0%, transparent 40%),
+                radial-gradient(circle at 90% 70%, rgba(255, 255, 255, 0.9) 0%, transparent 35%);
+            z-index: 4;
+            opacity: 0.9;
+        }
+
+        .landscape-layer {
+            background-image: url('https://images.unsplash.com/photo-1506744626753-1fa28f673b0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            z-index: 5;
+            background-position: center bottom;
+            filter: contrast(1.1) saturate(1.4) sepia(0.1) hue-rotate(-5deg);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 50%, black 80%, black 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, transparent 50%, black 80%, black 100%);
+        }
+
+        @keyframes flight {
+            0% {
+                transform: translateX(10vw) translateY(0px) rotate(-20deg);
+            }
+
+            25% {
+                transform: translateX(-35vw) translateY(-60px) rotate(-18deg);
+            }
+
+            50% {
+                transform: translateX(-80vw) translateY(30px) rotate(-22deg);
+            }
+
+            75% {
+                transform: translateX(-125vw) translateY(-30px) rotate(-18deg);
+            }
+
+            100% {
+                transform: translateX(-180vw) translateY(0px) rotate(-20deg);
+            }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 40%, rgba(245, 245, 220, 0.5) 100%);
+            z-index: 2;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 250px;
+            background: linear-gradient(to top, var(--parchment), transparent);
+            z-index: 2;
+        }
+
+        .hero-content {
+            background: rgba(245, 245, 220, 0.75);
+            padding: 4rem 5rem;
+            border-radius: 50px 70px 40px 60px;
+            /* Asymmetrical */
+            backdrop-filter: blur(12px);
+            border: 4px solid rgba(79, 121, 66, 0.35);
+            /* Soft watercolor border */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.5);
+            z-index: 3;
+            max-width: 800px;
+            margin: 0 1rem;
+            position: relative;
+        }
+
+        /* Swaying Leaves in Header */
+        .swaying-leaves {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 25px;
+            height: 15px;
+            background: var(--moss);
+            border-radius: 15px 0 15px 0;
+            animation: fluttering 10s linear infinite;
+            opacity: 0.8;
+            box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes fluttering {
+            0% {
+                transform: translate(0, -50px) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            90% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(150px, 1200px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Container & Grid layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 4rem 3rem;
+            margin-top: 4rem;
+        }
+
+        /* Content Cards with high organic border-radii */
+        .card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 50px 70px 60px 50px;
+            /* Organic shapes */
+            border: 3px solid rgba(161, 202, 241, 0.4);
+            /* soft sky blue */
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                border-color 0.4s ease, box-shadow 0.4s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Add slight asymmetry variation via nth-child */
+        .card:nth-child(2) {
+            border-radius: 70px 50px 50px 70px;
+        }
+
+        .card:nth-child(3) {
+            border-radius: 60px 40px 70px 50px;
+        }
+
+        .card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: var(--sunset);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 127, 80, 0.2);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 260px;
+            object-fit: contain;
+            /* changed to contain for sprites */
+            background: rgba(255, 255, 255, 0.4);
+            /* soft background for transparent pngs */
+            border-radius: 40px 50px 40px 50px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.5s ease;
+            filter: contrast(1.05) saturate(1.2);
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.03);
+        }
+
+        /* Ghibli Buttons */
+        .ghibli-btn {
+            background: var(--moss);
+            color: var(--parchment);
+            padding: 16px 40px;
+            border: none;
+            border-radius: 40px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(79, 121, 66, 0.4);
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .ghibli-btn:hover {
+            transform: scale(0.93);
+            /* Squish/shrink slightly */
+            background: #3e6034;
+            /* Soft golden outer glow */
+            box-shadow: 0 0 25px 8px rgba(255, 127, 80, 0.5), 0 4px 10px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+
+        /* Scroll Reveal (Fade & float up) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer & Swaying Grass */
+        .ghibli-footer {
+            position: relative;
+            background: linear-gradient(135deg, var(--moss), #2a4d20);
+            color: var(--parchment);
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            margin-top: 6rem;
+            overflow: hidden;
+        }
+
+        .swaying-scenery {
+            position: absolute;
+            top: -45px;
+            /* Pull up to sit on the edge boundary */
+            left: 0;
+            width: 100%;
+            height: 90px;
+            display: flex;
+            align-items: flex-end;
+            white-space: nowrap;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .grass-blade {
+            width: 6px;
+            height: var(--h, 40px);
+            background: var(--moss);
+            border-radius: 3px 3px 0 0;
+            display: inline-block;
+            transform-origin: bottom center;
+            animation: sway 3s ease-in-out infinite alternate;
+            margin-right: -1px;
+            /* Overlap slightly for dense look */
+            opacity: 0.95;
+            box-shadow: inset 1px 0 2px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes sway {
+            0% {
+                transform: rotate(-18deg);
+            }
+
+            100% {
+                transform: rotate(18deg);
+            }
+        }
+
+        .footer-content h2 {
+            color: var(--parchment);
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            .hero-content {
+                padding: 3rem 2rem;
+                border-radius: 30px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            /* Remove custom cursor on mobile due to touch */
+            body,
+            a,
+            button,
+            input,
+            textarea {
+                cursor: auto;
+            }
+
+            #soot-cursor {
+                display: none !important;
+            }
+
+            /* Reduced reveal distance for smaller screens */
+            .reveal {
+                transform: translateY(30px);
+            }
+        }
+
+        /* Ghibli Custom Modal (The "None" Popup) */
+        #none-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(44, 62, 80, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 2000000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        #none-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--parchment);
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            padding: 3rem 5rem;
+            border-radius: 40px 60px 40px 60px;
+            border: 4px solid var(--moss);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        #none-modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h2 {
+            font-size: 3.5rem;
+            margin: 0;
+            color: var(--sunset);
+            letter-spacing: 5px;
+        }
+
+        .modal-close {
+            margin-top: 2rem;
+            padding: 10px 25px;
+            background: var(--moss);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.1);
+        }
+
+        /* Reduced reveal distance for smaller screens */
+        .reveal {
+            transform: translateY(30px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Custom Interactive Cursor -->
+    <div id="soot-cursor"></div>
+
+    <!-- Background Music -->
+    <audio id="bg-audio" src="assets/backgroudaudio.mp3" loop preload="auto"></audio>
+
+    <!-- Floating Background Music Toggle Button -->
+    <button id="bg-music-btn" title="Toggle background music" style="
+        position: fixed; bottom: 28px; left: 28px;
+        width: 52px; height: 52px;
+        background: rgba(245,245,220,0.92);
+        border: 2px solid rgba(79,121,66,0.45);
+        border-radius: 50%;
+        font-size: 1.4rem;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        z-index: 9999;
+    ">🎵</button>
+
+    <!-- Interactive Loading Screen -->
+    <div id="loader">
+        <div class="lantern-wrapper">
+            <div class="lantern-glow"></div>
+            <!-- Lottie animation placeholder from lottiefiles -->
+            <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_96py9iun.json" background="transparent"
+                speed="1" style="width: 250px; height: 250px;" loop autoplay></lottie-player>
+        </div>
+    </div>
+
+    <!-- Main Navigation/Header with Parallax -->
+    <header class="hero" id="home">
+        <!-- Leaves for Header Micro-interaction -->
+        <div class="swaying-leaves" id="leaves-container"></div>
+
+        <!-- Multi-layer Parallax Elements -->
+        <div class="parallax-layer sky-layer" id="layer-sky"></div>
+        <div class="parallax-layer clouds-layer-back" id="layer-clouds-back"></div>
+
+        <div class="parallax-layer dragon-layer" id="layer-dragon">
+            <img src="assets/dragon_party_hat_transparent.png" alt="Haku the River Spirit with Party Hat"
+                class="dragon-moving" />
+        </div>
+
+        <div class="parallax-layer clouds-layer-front" id="layer-clouds-front"></div>
+        <div class="parallax-layer landscape-layer" id="layer-landscape"></div>
+
+        <div class="hero-content reveal">
+            <h1>Happy Anniversary With Life</h1>
+            <p class="hero-subtitle">And just like that… another year of you being amazing.</p>
+            <a href="#explore" class="ghibli-btn">Clink on the Button on the left and Scroll Down Please</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" id="explore">
+
+        <div class="card reveal" id="gif-card"
+            style="margin: 3rem auto 6rem; max-width: 900px; border-radius: 60px 50px 70px 40px; padding: 4rem;">
+            <!-- GIF Audio (plays in sync when GIF is visible) -->
+            <audio id="gif-audio" src="assets/audio.mp3" loop preload="auto"></audio>
+
+            <!-- High-quality Video Replacement for the GIF -->
+            <div style="text-align: center; margin-bottom: 2.5rem; position: relative;">
+                <video id="bday-video" preload="auto" loop muted playsinline poster="assets/bday.png"
+                    style="max-width: 100%; height: auto; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); display: block; margin: 0 auto;">
+                    <source src="assets/upscaled-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <!-- Floating mute toggle button -->
+                <button id="audio-toggle" title="Toggle sound" style="
+                    position: absolute; bottom: 14px; right: 14px;
+                    background: rgba(245,245,220,0.9);
+                    border: 2px solid rgba(79,121,66,0.4);
+                    border-radius: 50%;
+                    width: 44px; height: 44px;
+                    font-size: 1.3rem;
+                    cursor: pointer;
+                    display: flex; align-items: center; justify-content: center;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                    z-index: 10;
+                " onmouseover="this.style.transform='scale(1.15)'"
+                    onmouseout="this.style.transform='scale(1)'">🔊</button>
+            </div>
+            <h2 style="text-align: center;">A Little Magic for Your Day</h2>
+            <p style="font-size: 1.25rem; color: #34495e; text-align: center;">May your day be as gentle as a breeze
+                through wildflowers,
+                as warm as golden sunlight on a quiet afternoon,
+                and as magical as the little moments that make life feel like a story.</p>
+        </div>
+
+        <div class="grid">
+            <!-- Content Card 1 -->
+            <article class="card reveal">
+                <img src="assets/girl.png" alt="Jiji the Cat" class="card-img" />
+                <h3>Soft heart, Sharp humor & A Magical Smile</h3>
+                <p>That Smile? God , illegal levels of cute! And your humor? Chef's kiss!
+                </p>
+                <a href="picturegallery/index.html" class="ghibli-btn"
+                    style="padding: 10px 25px; font-size: 1rem; text-decoration: none;">Click here Please</a>
+            </article>
+
+            <!-- Content Card 2 -->
+            <article class="card reveal" style="transition-delay: 0.1s;">
+                <img src="assets/us.png" alt="Haku Dragon" class="card-img" />
+                <h3>Why You're Special</h3>
+                <p>It's hard to put into words , but the way you make me feel is something I can't describe. The Days we
+                    spent together, with no worries and just enjoying the moment, became one of the best days for me.
+                    With you, Even simple moments feel special.
+                </p>
+                <button id="hate-btn" class="ghibli-btn" style="padding: 10px 25px; font-size: 1rem;">Click here to
+                    learn the things i
+                    hate about you!</button>
+            </article>
+
+            <!-- Content Card 3 -->
+            <article class="card reveal" style="transition-delay: 0.2s;">
+                <img src="assets/smile.png" alt="No-Face" class="card-img" style="filter: none;" />
+                <h3>A Small Note From me</h3>
+                <p>Thank you for being an Amazing Friend! I don’t know how I got this lucky,
+                    but I thank the universe for your presence every day.</p>
+                <a href="cake/index.html" class="ghibli-btn"
+                    style="padding: 10px 25px; font-size: 1rem; text-decoration: none;">Here's a cake for you!</a>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="ghibli-footer">
+        <div class="swaying-scenery" id="grass-container">
+            <!-- Grass naturally generated by JS -->
+        </div>
+        <div class="footer-content reveal">
+            <h2>The universe must’ve been feeling generous in 2001,
+                because that’s when it gave the world you.</h2>
+            <a href="Galaxy Animation/index.html" class="ghibli-btn" style="text-decoration: none;">Fly With Me</a>
+            <p style="margin-top: 3rem; font-size: 0.95rem; opacity: 0.8;">
+                I Don't know if i could ever take you to the stars so i brought the stars to you! ⭐
+            </p>
+        </div>
+    </footer>
+
+    <!-- None Popup Modal -->
+    <div id="none-modal">
+        <div class="modal-content">
+            <h2>NONE</h2>
+            <p style="margin-top: 1rem; font-size: 1.1rem; color: #555;">(Surprise! There's absolutely nothing to hate.)
+            </p>
+            <button class="modal-close" onclick="closeModal()">Close ✨</button>
+        </div>
+    </div>
+
+    <script>
+        // --- 0. Background Music ---
+        const bgAudio = document.getElementById('bg-audio');
+        const bgBtn = document.getElementById('bg-music-btn');
+        bgAudio.volume = 0.5;
+        let bgPlaying = false;
+
+        function startBgAudio() {
+            bgAudio.play().then(() => {
+                bgPlaying = true;
+                bgBtn.textContent = '🔇';
+                bgBtn.title = 'Pause background music';
+            }).catch(() => { });
+        }
+
+        // Start on first interaction anywhere on the page
+        document.addEventListener('click', startBgAudio, { once: true });
+
+        // Floating button toggles play / pause
+        bgBtn.addEventListener('click', (e) => {
+            // Remove the one-time autoplay listener if button clicked first
+            document.removeEventListener('click', startBgAudio);
+            if (bgPlaying) {
+                bgAudio.pause();
+                bgPlaying = false;
+                bgBtn.textContent = '🎵';
+                bgBtn.title = 'Play background music';
+            } else {
+                bgAudio.play();
+                bgPlaying = true;
+                bgBtn.textContent = '🔇';
+                bgBtn.title = 'Pause background music';
+            }
+        });
+
+        // Hover feedback on the button
+        bgBtn.addEventListener('mouseenter', () => bgBtn.style.transform = 'scale(1.15)');
+        bgBtn.addEventListener('mouseleave', () => bgBtn.style.transform = 'scale(1)');
+
+        // --- 1. Loader Logic (1.5s delay after page load) ---
+        window.addEventListener('load', () => {
+            // Give a minimum 1.5s delay for the animation to play fully before fading
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    // Trigger scroll reveal immediately after load completes
+                    checkReveal();
+                }, 1500); // Wait for the CSS opacity transition
+            }, 1500);
+        });
+
+        // --- 2. Custom Soot Sprite Cursor ---
+        const cursor = document.getElementById('soot-cursor');
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
+        let isDesktop = window.innerWidth > 768;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            // Slight lag easing effect
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+
+            // Note: the CSS translates by -50% to stay centered on the point
+            cursor.style.transform = `translate(calc(-50% + ${cursorX}px), calc(-50% + ${cursorY}px))`;
+
+            if (isDesktop) {
+                requestAnimationFrame(animateCursor);
+            }
+        }
+
+        if (isDesktop) {
+            animateCursor();
+        }
+
+        // Add interactive squish/grow to cursor on clickable elements
+        const iteractiveElements = document.querySelectorAll('button, a, .card');
+        iteractiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+
+        // --- 3. Scroll Reveal (Fade & Float Up) ---
+        const reveals = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 120; // Trigger distance
+            reveals.forEach(reveal => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+
+        // --- 4. Parallax Hero Background (Multi-layer) ---
+        const layerSky = document.getElementById('layer-sky');
+        const layerCloudsBack = document.getElementById('layer-clouds-back');
+        const layerDragon = document.getElementById('layer-dragon');
+        const layerCloudsFront = document.getElementById('layer-clouds-front');
+        const layerLandscape = document.getElementById('layer-landscape');
+
+        window.addEventListener('scroll', () => {
+            let scrolled = window.scrollY;
+            if (scrolled < window.innerHeight) {
+                // Backgrounds move at different speeds for 3D depth
+                if (layerSky) layerSky.style.transform = `translateY(${scrolled * 0.15}px)`;
+                if (layerCloudsBack) layerCloudsBack.style.transform = `translateY(${scrolled * 0.3}px)`;
+                if (layerDragon) layerDragon.style.transform = `translateY(${scrolled * 0.5}px)`;
+                if (layerCloudsFront) layerCloudsFront.style.transform = `translateY(${scrolled * 0.65}px)`;
+                if (layerLandscape) layerLandscape.style.transform = `translateY(${scrolled * 0.85}px)`;
+            }
+        });
+
+        // --- 5. Generate Micro-Interaction Swaying Grass (Footer) ---
+        function generateGrass() {
+            const grassContainer = document.getElementById('grass-container');
+            grassContainer.innerHTML = '';
+            // Density: one blade roughly every ~5px
+            const grassCount = Math.floor(window.innerWidth / 5);
+
+            for (let i = 0; i < grassCount; i++) {
+                const blade = document.createElement('div');
+                blade.className = 'grass-blade';
+
+                // Randomize organic look
+                const height = 30 + Math.random() * 55; // 30px to 85px
+                const delay = Math.random() * -4; // Start randomly halfway into animation
+                const duration = 2.5 + Math.random() * 2; // 2.5s to 4.5s swaying speed
+
+                blade.style.setProperty('--h', `${height}px`);
+                blade.style.animationDelay = `${delay}s`;
+                blade.style.animationDuration = `${duration}s`;
+
+                // Variation in shades of green
+                let rand = Math.random();
+                if (rand > 0.6) {
+                    blade.style.background = '#3e6034'; // darker/deeper moss
+                } else if (rand > 0.85) {
+                    blade.style.background = '#5F8A52'; // brighter sunlit green
+                }
+
+                grassContainer.appendChild(blade);
+            }
+        }
+        generateGrass();
+
+        // --- 7. Video + Audio play on hover ---
+        const gifAudio = document.getElementById('gif-audio');
+        const gifCard = document.getElementById('gif-card');
+        const bdayVideo = document.getElementById('bday-video');
+        const audioBtn = document.getElementById('audio-toggle');
+
+        let isMuted = false;
+
+        // Mute toggle
+        audioBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isMuted = !isMuted;
+            gifAudio.muted = isMuted;
+            audioBtn.textContent = isMuted ? '🔇' : '🔊';
+        });
+
+        // Hover-in: Play video + play audio
+        gifCard.addEventListener('mouseenter', () => {
+            bdayVideo.play().catch(() => { });
+            gifAudio.currentTime = 0;
+            gifAudio.play().catch(() => {
+                // Autoplay policy — try again on next click
+                document.addEventListener('click', () => gifAudio.play(), { once: true });
+            });
+        });
+
+        // Hover-out: Pause video + pause audio
+        gifCard.addEventListener('mouseleave', () => {
+            bdayVideo.pause();
+            gifAudio.pause();
+        });
+
+        // --- 6. Generate Fluttering Leaves (Header) ---
+        const leavesContainer = document.getElementById('leaves-container');
+        for (let i = 0; i < 15; i++) {
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            leaf.style.left = Math.random() * 100 + '%';
+            leaf.style.top = (Math.random() * -30) + 'px';
+            leaf.style.animationDelay = (Math.random() * 10) + 's';
+            leaf.style.animationDuration = (8 + Math.random() * 8) + 's'; // Slow, gentle fall
+            leaf.style.transform = `scale(${0.5 + Math.random() * 0.7})`;
+
+            // Add an occasional sky-blue magic leaf
+            if (Math.random() > 0.8) {
+                leaf.style.background = 'rgba(161, 202, 241, 0.85)';
+            }
+            leavesContainer.appendChild(leaf);
+        }
+
+        // --- Handle Resizing gracefully ---
+        window.addEventListener('resize', () => {
+            let wasDesktop = isDesktop;
+            isDesktop = window.innerWidth > 768;
+
+            if (!isDesktop) {
+                cursor.style.display = 'none';
+            } else {
+                cursor.style.display = 'block';
+                if (!wasDesktop) animateCursor(); // Restart loop if transitioning
+            }
+
+            // Debounce grass regeneration on resize
+            clearTimeout(window.resizeTimer);
+            window.resizeTimer = setTimeout(() => {
+                generateGrass();
+            }, 250);
+        });
+
+        // --- 8. None Popup Logic ---
+        const noneModal = document.getElementById('none-modal');
+        const hateBtn = document.getElementById('hate-btn');
+
+        if (hateBtn) {
+            hateBtn.addEventListener('click', () => {
+                noneModal.style.display = 'flex';
+                setTimeout(() => noneModal.classList.add('active'), 10);
+            });
+        }
+
+        function closeModal() {
+            noneModal.classList.remove('active');
+            setTimeout(() => noneModal.style.display = 'none', 400);
+        }
+
+        // Close on clicking outside the content
+        noneModal.addEventListener('click', (e) => {
+            if (e.target === noneModal) closeModal();
+        });
+    </script>
+</body>
+
+</html>
