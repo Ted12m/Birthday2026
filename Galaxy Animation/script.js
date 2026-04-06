@@ -1,11 +1,7 @@
 // import './style.css'
-import * as THREE from "https://esm.sh/three@0.132.2";
-
-import { OrbitControls } from "https://esm.sh/three@0.132.2/examples/jsm/controls/OrbitControls.js";
-
-
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // import { Geometry, TetrahedronGeometry } from 'three'
-
 /**
  * Base
  */
