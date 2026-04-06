@@ -1,7 +1,7 @@
 // import './style.css'
-import * as THREE from "https://cdn.skypack.dev/three@0.132.2";
+import * as THREE from "https://esm.sh/three@0.132.2";
 
-import { OrbitControls } from "https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js";
+import { OrbitControls } from "https://esm.sh/three@0.132.2/examples/jsm/controls/OrbitControls.js";
 
 
 // import { Geometry, TetrahedronGeometry } from 'three'
@@ -121,8 +121,7 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-const camera = new 
-THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 3
 camera.position.y = 3
 camera.position.z = 3
